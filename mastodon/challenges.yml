@@ -1,0 +1,91 @@
+# Mastodon Challenge Configuration
+# Edit this file to define your challenges
+
+system: mastodon
+instance: mastodon.cyberlab.local
+chapter: 1
+chapter_name: "Mastodon Social Network"
+
+# Define your challenges here
+challenges:
+  # Challenge 1: The Hidden Toot
+  - id: mastodon_hidden_toot
+    name: "The Hidden Toot"
+    category: "Mastodon - Chapter 1"
+    description: |
+      Welcome to CyberLab's Mastodon instance! A mysterious user has joined our social network.
+
+      There are rumors that user **@ctf_user_2024** has posted something... interesting.
+      Can you find their secret message?
+
+      **Target:** https://mastodon.cyberlab.local
+      **Username to investigate:** @ctf_user_2024
+
+      **Hint:** Sometimes secrets are hidden in plain sight. Developers often leave comments...
+
+      Flag format: CYBERLABFLAG{...}
+    points: 100
+    difficulty: easy
+
+    # Flag planting instructions
+    flag_location:
+      type: web_interface
+      details: |
+        1. Register account: @ctf_user_2024
+        2. Create public toot with visible text: "Welcome to CyberLab Mastodon! 🚀"
+        3. Add HTML comment in toot: <!-- CTF Flag: CYBERLABFLAG{...} -->
+        4. Pin the toot to profile
+
+    # Hints (optional)
+    hints:
+      - text: "Try viewing the page source of the user's profile or posts"
+        cost: 0
+      - text: "Look for HTML comments in the page source - developers sometimes forget to remove them"
+        cost: 25
+
+  # Challenge 2: Profile Picture Secrets
+  - id: mastodon_profile_secrets
+    name: "Profile Picture Secrets"
+    category: "Mastodon - Chapter 1"
+    description: |
+      User **@ctf_user_2024** has an interesting profile picture...
+
+      Rumor has it they're not very good at hiding secrets in images.
+      Digital images can contain more information than meets the eye!
+
+      **Target:** https://mastodon.cyberlab.local/@ctf_user_2024
+
+      **Your mission:**
+      1. Download the user's profile picture
+      2. Analyze the image file for hidden data
+      3. Extract the flag
+
+      **Tools you might need:** exiftool, strings, steghide, or any metadata viewer
+
+      Flag format: CYBERLABFLAG{...}
+    points: 200
+    difficulty: medium
+
+    flag_location:
+      type: file
+      details: |
+        1. Create image with embedded flag in EXIF metadata
+        2. Upload as profile picture for @ctf_user_2024
+        3. Participants download and analyze with exiftool or similar
+
+        Command to embed flag:
+        exiftool -Comment="CYBERLABFLAG{profile_metadata_exposed}" profile.jpg
+
+    hints:
+      - text: "Images can contain metadata - information about when, where, and how they were created"
+        cost: 0
+      - text: "Try using 'exiftool' command: exiftool image.jpg"
+        cost: 50
+      - text: "Look for the 'Comment' field in the EXIF metadata"
+        cost: 75
+
+# Flag generation seeds (for reproducible flags)
+# Flags will be generated using: generate_challenge_flag <system> <challenge_id>
+flag_seeds:
+  mastodon_hidden_toot: "mastodon_hidden_toot_ctf2025"
+  mastodon_profile_secrets: "mastodon_profile_secrets_ctf2025"

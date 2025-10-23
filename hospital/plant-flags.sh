@@ -164,30 +164,32 @@ plant_flag_in_file() {
 log_info "Generating and planting flags..."
 echo ""
 
-# Challenge 1: Example database flag
-log_info "[1/2] Processing: hospital_example_1"
-FLAG_1=$(generate_challenge_flag "hospital" "hospital_example_1")
-echo "hospital_example_1=$FLAG_1" >> "$GENERATED_FLAGS_FILE"
+# Challenge 1: Patient Records (database flag)
+log_info "[1/2] Processing: hospital_patient_records"
+FLAG_1=$(generate_challenge_flag "hospital" "hospital_patient_records")
+echo "hospital_patient_records=$FLAG_1" >> "$GENERATED_FLAGS_FILE"
 show_flag "Generated flag" "$FLAG_1"
 
 # Try to plant in database
-plant_flag_in_database "hospital_example_1" "$FLAG_1" "patients table, id=999"
+plant_flag_in_database "hospital_patient_records" "$FLAG_1" "patients table, id=999, notes column"
 echo ""
 
-# Challenge 2: Example file flag
-log_info "[2/2] Processing: hospital_example_2"
-FLAG_2=$(generate_challenge_flag "hospital" "hospital_example_2")
-echo "hospital_example_2=$FLAG_2" >> "$GENERATED_FLAGS_FILE"
+# Challenge 2: Admin Dashboard (file/route flag)
+log_info "[2/2] Processing: hospital_admin_dashboard"
+FLAG_2=$(generate_challenge_flag "hospital" "hospital_admin_dashboard")
+echo "hospital_admin_dashboard=$FLAG_2" >> "$GENERATED_FLAGS_FILE"
 show_flag "Generated flag" "$FLAG_2"
 
 # Try to plant in file
-# NOTE: Update this path to match your actual Hospital system
-FILE_PATH="/var/www/hospital/config.php"
+# NOTE: This might need to be done via code change (PR) instead
+# Trying common locations, but manual planting may be required
+FILE_PATH="/var/www/hospital/public/index.html"
 if [ -f "$FILE_PATH" ]; then
-    plant_flag_in_file "hospital_example_2" "$FLAG_2" "$FILE_PATH" "html_comment"
+    plant_flag_in_file "hospital_admin_dashboard" "$FLAG_2" "$FILE_PATH" "html_comment"
 else
     log_warn "File not found: $FILE_PATH"
-    log_warn "You'll need to manually plant this flag"
+    log_warn "This flag likely needs to be planted via code change"
+    log_warn "See flag-planting-manual.md for instructions"
     log_warn "Flag to plant: $FLAG_2"
 fi
 echo ""

@@ -1,5 +1,53 @@
+# Backup files
 *.backup
-*.log
-.env
-*.swp
+*.bak
 *~
+*.swp
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+
+# Generated flags (sensitive!)
+.generated-flags.txt
+*/.generated-flags.txt
+
+# Backups directory (contains sensitive data)
+backups/
+*.tar.gz
+
+# Temporary files
+.ctf_temp/
+*/ctf_temp/
+temp/
+tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log
+
+# CTF-specific sensitive data
+*.key
+*.pem
+*.cert
+credentials.txt
+secrets.txt

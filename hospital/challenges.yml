@@ -4,56 +4,101 @@
 system: hospital
 instance: hospital.cyberlab.local
 chapter: 2
-chapter_name: "Hospital System"
+chapter_name: "Hospital Management System"
 
 # Define your challenges here
 challenges:
-  # Example Challenge 1
-  - id: hospital_example_1
-    name: "Hospital Example Challenge 1"
+  # Challenge 1: Public Patient Records
+  - id: hospital_patient_records
+    name: "Public Patient Records"
     category: "Hospital - Chapter 2"
     description: |
-      This is an example challenge description.
-      You can use multiple lines.
-      
-      Target: https://hospital.cyberlab.local
-      
-      Find the flag in format: CYBERLABFLAG{...}
+      The hospital management system stores thousands of patient records.
+
+      You've heard rumors that there's a special test patient in the system...
+      Patient ID **999** seems to have some interesting information in their medical notes.
+
+      **Target:** https://hospital.cyberlab.local
+
+      **Your mission:**
+      Can you find a way to access this patient's medical records?
+
+      **Hint:** Sometimes web applications don't properly restrict access to resources.
+      What happens if you try to view different patient IDs?
+
+      Flag format: CYBERLABFLAG{...}
     points: 100
     difficulty: easy
-    
+
     # Flag planting instructions
     flag_location:
-      type: database          # database, file, or config
-      details: "patients table, id=999, notes column"
-    
+      type: database
+      details: |
+        Insert into patients table:
+        - Patient ID: 999
+        - Name: "CTF Test Patient"
+        - Age: 45
+        - Diagnosis: "Routine Checkup"
+        - Notes: "Medical History: Patient reports normal health. CTF Flag: CYBERLABFLAG{...}"
+        - Make this record accessible via IDOR vulnerability or public API endpoint
+
     # Hints (optional)
     hints:
-      - text: "This is a free hint"
+      - text: "Try accessing patient records with different IDs. What happens at /patients/999 or /api/patients/999?"
         cost: 0
-      - text: "This hint costs 25 points"
+      - text: "IDOR (Insecure Direct Object Reference) vulnerabilities occur when applications expose direct access to objects based on user input"
         cost: 25
+      - text: "Look in the medical notes field of patient ID 999"
+        cost: 50
 
-  # Example Challenge 2
-  - id: hospital_example_2
-    name: "Hospital Example Challenge 2"
+  # Challenge 2: Doctor's Dashboard Discovery
+  - id: hospital_admin_dashboard
+    name: "Doctor's Dashboard Discovery"
     category: "Hospital - Chapter 2"
     description: |
-      Another example challenge
-      
-      Target: https://hospital.cyberlab.local
-      
+      The hospital has a secret administrative dashboard for doctors and staff.
+
+      It's not linked anywhere on the main website, but it exists somewhere...
+      Hospital administrators aren't always good at security through obscurity.
+
+      **Target:** https://hospital.cyberlab.local
+
+      **Your mission:**
+      1. Discover the hidden admin/doctor dashboard URL
+      2. Find the flag displayed on that page
+
+      **Techniques to try:**
+      - Directory/path enumeration
+      - Check common admin paths
+      - Look for clues in page source, robots.txt, or sitemap
+
       Flag format: CYBERLABFLAG{...}
-    points: 200
+    points: 250
     difficulty: medium
-    
+
     flag_location:
       type: file
-      details: "/var/www/hospital/config.php as HTML comment"
-    
-    hints:
-      - text: "Check the source code"
-        cost: 0
+      details: |
+        Add hidden route/endpoint:
+        - URL: /ctf_admin_panel_secret_2024 or /doctor/dashboard_hidden
+        - Page should display flag in HTML (could be in comment or visible)
+        - Alternatively: Add flag as HTML comment in existing public page like /about or /contact
 
-# Add more challenges as needed
-# You can add/edit these later - the scripts will read from this file
+        Example HTML to add:
+        <!-- CTF Admin Panel: CYBERLABFLAG{...} -->
+        Or create simple page with text: "Welcome to Admin Panel. Flag: CYBERLABFLAG{...}"
+
+    hints:
+      - text: "Common admin paths include: /admin, /dashboard, /staff, /doctor, /management"
+        cost: 0
+      - text: "Try checking robots.txt or looking for hidden comments in the page source of public pages"
+        cost: 50
+      - text: "The admin panel might have 'ctf' or 'secret' or a year (2024/2025) in the URL"
+        cost: 75
+      - text: "Try: /ctf_admin_panel_secret_2024"
+        cost: 100
+
+# Flag generation seeds (for reproducible flags)
+flag_seeds:
+  hospital_patient_records: "hospital_patient_records_ctf2025"
+  hospital_admin_dashboard: "hospital_admin_dashboard_ctf2025"
