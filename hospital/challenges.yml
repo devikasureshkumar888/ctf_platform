@@ -1,0 +1,59 @@
+# Hospital Challenge Configuration
+# Edit this file to define your challenges
+
+system: hospital
+instance: hospital.cyberlab.local
+chapter: 2
+chapter_name: "Hospital System"
+
+# Define your challenges here
+challenges:
+  # Example Challenge 1
+  - id: hospital_example_1
+    name: "Hospital Example Challenge 1"
+    category: "Hospital - Chapter 2"
+    description: |
+      This is an example challenge description.
+      You can use multiple lines.
+      
+      Target: https://hospital.cyberlab.local
+      
+      Find the flag in format: CYBERLABFLAG{...}
+    points: 100
+    difficulty: easy
+    
+    # Flag planting instructions
+    flag_location:
+      type: database          # database, file, or config
+      details: "patients table, id=999, notes column"
+    
+    # Hints (optional)
+    hints:
+      - text: "This is a free hint"
+        cost: 0
+      - text: "This hint costs 25 points"
+        cost: 25
+
+  # Example Challenge 2
+  - id: hospital_example_2
+    name: "Hospital Example Challenge 2"
+    category: "Hospital - Chapter 2"
+    description: |
+      Another example challenge
+      
+      Target: https://hospital.cyberlab.local
+      
+      Flag format: CYBERLABFLAG{...}
+    points: 200
+    difficulty: medium
+    
+    flag_location:
+      type: file
+      details: "/var/www/hospital/config.php as HTML comment"
+    
+    hints:
+      - text: "Check the source code"
+        cost: 0
+
+# Add more challenges as needed
+# You can add/edit these later - the scripts will read from this file
